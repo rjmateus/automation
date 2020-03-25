@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "terraform untaint with grep $1"
+
+for i in `terraform state list | grep $1`; do terraform untaint $i; done

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "revert snapshot with prefix $1"
+
+for i in `sudo virsh list --name | grep $1`; do sudo virsh shutdown --domain $i ; done
+
+for i in `sudo virsh list --all --name | grep $1`; do sudo virsh snapshot-revert --domain $i --snapshotname "${i}-snapshot" --running; done
+
+echo "done"

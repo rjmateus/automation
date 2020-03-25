@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "create snapshot with prefix $1"
+
+for i in `sudo virsh list --all --name | grep $1`; do sudo virsh snapshot-delete --domain $i --snapshotname "${i}-snapshot"; done
+
+echo "done"
