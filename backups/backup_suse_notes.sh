@@ -7,7 +7,8 @@ function backup_folder() {
   TODAY=`date +"%m-%d-%y-%T"`
   echo "[$TODAY]processing folder '$1'"
   cd $1
-  git diff --exit-code
+  git add -A
+  git diff HEAD --exit-code
   if [ $? -ne 0 ]; then
     echo "changes to commit"
     git add -A
