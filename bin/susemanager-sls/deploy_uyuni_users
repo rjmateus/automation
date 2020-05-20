@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "copy files"
+scp /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_modules/uyuni_users.py uyuni-hub-hub-server.tf.local:/usr/share/susemanager/salt/_modules/
+
+scp /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_states/uyuni_users.py uyuni-hub-hub-server.tf.local:/usr/share/susemanager/salt/_states/
+
+echo "deploy modules and states to all minions"
+ssh uyuni-hub-hub-server.tf.local "salt '*' saltutil.sync_modules"
+ssh uyuni-hub-hub-server.tf.local "salt '*' saltutil.sync_states"
+
+echo "refresh pillar data"
+ssh uyuni-hub-hub-server.tf.local "salt '*' saltutil.refresh_pillar"
+
+echo "all done"
