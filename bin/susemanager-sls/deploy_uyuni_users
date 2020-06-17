@@ -1,22 +1,26 @@
 #!/bin/bash
 
-echo "deploy files from  $1 to server $2"
+echo "deploy files to server $1"
 
 echo "copy files"
-scp $1/_modules/uyuni_users.py $2:/usr/share/susemanager/salt/_modules/
+ssh $1 "mkdir -p /srv/salt/_modules/"
+scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_modules/uyuni_users.py $1:/srv/salt/_modules/
 
-scp $1/_states/uyuni_users.py $2:/usr/share/susemanager/salt/_states/
+ssh $1 "mkdir -p /srv/salt/_states/"
+scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_states/uyuni_users.py $1:/srv/salt/_states/
 
-#scp $1/_utils/* $2:/usr/share/susemanager/salt/_utils/
+echo "copy example files"
+scp  /home/rmateus/projects/SUSE_notes/dev_requeriments/new_features/hub_user_groups/example/salt/* $1:/srv/salt/
+scp  /home/rmateus/projects/SUSE_notes/dev_requeriments/new_features/hub_user_groups/example/pillar/* $1:/srv/pillar/
 
 echo "deploy modules to all minions"
-ssh $2 "salt '*1*' saltutil.sync_modules"
+ssh $1 "salt '*1*' saltutil.sync_modules"
 echo "deploy states to all minions"
-ssh $2 "salt '*1*' saltutil.sync_states"
+ssh $1 "salt '*1*' saltutil.sync_states"
 #echo "deploy utils to all minions"
 #ssh $2 "salt '*' saltutil.sync_utils"
 
 echo "refresh pillar data"
-ssh $2 "salt '*1*' saltutil.refresh_pillar"
+ssh $1 "salt '*1*' saltutil.refresh_pillar"
 
 echo "all done"
