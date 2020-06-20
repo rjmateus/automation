@@ -10,8 +10,8 @@ ssh $1 "mkdir -p /srv/salt/_states/"
 scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_states/uyuni_users.py $1:/srv/salt/_states/
 
 echo "copy example files"
-scp  /home/rmateus/projects/SUSE_notes/dev_requeriments/new_features/hub_user_groups/example/salt/* $1:/srv/salt/
-scp  /home/rmateus/projects/SUSE_notes/dev_requeriments/new_features/hub_user_groups/example/pillar/* $1:/srv/pillar/
+scp  /home/rmateus/projects/SUSE_notes/dev_issues_features/new_features/hub_user_groups/example/salt/* $1:/srv/salt/
+scp  /home/rmateus/projects/SUSE_notes/dev_issues_features/new_features/hub_user_groups/example/pillar/* $1:/srv/pillar/
 
 echo "deploy modules to all minions"
 ssh $1 "salt '*1*' saltutil.sync_modules"
