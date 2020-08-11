@@ -14,13 +14,17 @@ scp  /home/rmateus/projects/SUSE_notes/dev_issues_features/new_features/hub_user
 scp  /home/rmateus/projects/SUSE_notes/dev_issues_features/new_features/hub_user_groups/example/pillar/* $1:/srv/pillar/
 
 echo "deploy modules to all minions"
-ssh $1 "salt '*' saltutil.sync_modules"
+ssh $1 "salt '*1*' saltutil.sync_modules"
 echo "deploy states to all minions"
-ssh $1 "salt '*' saltutil.sync_states"
+ssh $1 "salt '*1*' saltutil.sync_states"
 #echo "deploy utils to all minions"
 #ssh $2 "salt '*' saltutil.sync_utils"
 
 echo "refresh pillar data"
-ssh $1 "salt '*' saltutil.refresh_pillar"
+ssh $1 "salt '*1*' saltutil.refresh_pillar"
+
+echo "deploying formula"
+scp  /home/rmateus/projects/suma/salt-formulas/uyuni-users-formula/uyuni-users/* $1:/usr/share/susemanager/formulas/states/uyuni-users
+scp  /home/rmateus/projects/suma/salt-formulas/uyuni-users-formula/metadata/* $1:/usr/share/susemanager/formulas/metadata/uyuni-users
 
 echo "all done"
