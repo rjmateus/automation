@@ -4,10 +4,10 @@ echo "deploy files to server $1"
 
 echo "copy files"
 ssh $1 "mkdir -p /srv/salt/_modules/"
-scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_modules/uyuni_users.py $1:/srv/salt/_modules/
+scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/modules/uyuni_config.py $1:/srv/salt/_modules/
 
 ssh $1 "mkdir -p /srv/salt/_states/"
-scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/_states/uyuni_users.py $1:/srv/salt/_states/
+scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/states/uyuni_config.py $1:/srv/salt/_states/
 
 echo "copy example files"
 scp  /home/rmateus/projects/SUSE_notes/dev_issues_features/new_features/hub_user_groups/example/salt/* $1:/srv/salt/
@@ -24,7 +24,7 @@ echo "refresh pillar data"
 ssh $1 "salt '*1*' saltutil.refresh_pillar"
 
 echo "deploying formula"
-scp  /home/rmateus/projects/suma/salt-formulas/uyuni-users-formula/uyuni-users/* $1:/usr/share/susemanager/formulas/states/uyuni-users
-scp  /home/rmateus/projects/suma/salt-formulas/uyuni-users-formula/metadata/* $1:/usr/share/susemanager/formulas/metadata/uyuni-users
+scp  /home/rmateus/projects/suma/salt-formulas/uyuni-config-formula/uyuni-config/* $1:/usr/share/susemanager/formulas/states/uyuni-config
+scp  /home/rmateus/projects/suma/salt-formulas/uyuni-config-formula/metadata/* $1:/usr/share/susemanager/formulas/metadata/uyuni-config
 
 echo "all done"

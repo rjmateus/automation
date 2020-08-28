@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "deploy files to server $1"
+
+echo "copy files"
+ssh $1 "mkdir -p /srv/salt/_modules/"
+scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/modules/uyuni_config.py $1:/usr/share/susemanager/salt/_modules/
+
+ssh $1 "mkdir -p /srv/salt/_states/"
+scp  /home/rmateus/projects/suma/spacewalk/susemanager-utils/susemanager-sls/src/states/uyuni_config.py $1:/usr/share/susemanager/salt/_states/
