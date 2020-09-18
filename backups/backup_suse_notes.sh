@@ -12,7 +12,8 @@ function backup_folder() {
   if [ $? -ne 0 ]; then
     echo "changes to commit"
     git add -A
-    git commit -s -S -m "$TODAY"
+    #git commit -s -S -m "$TODAY"
+    git commit -m "$TODAY"
   fi
 
   git push
