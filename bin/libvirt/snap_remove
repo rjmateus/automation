@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ -z ${1} ]; then
+   echo "Provide the prefix of the environment as a parameter. Example: suma-32"
+   exit 1
+fi
 
 echo "revert snapshot with prefix $1"
 
