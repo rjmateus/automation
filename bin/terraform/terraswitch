@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+from glob import glob
+import os
+import pdb
+
+ws_path = "/home/rmateus/projects/suma/sumaform/workspace/"
+workspaces = glob("/home/rmateus/projects/suma/sumaform/workspace/*")
+#workspaces = os.listdir(ws_path)
+
+print('available workspaces:')
+for index, workspace in enumerate(workspaces):
+  if os.path.isdir(workspace):
+    print("{} - {}".format(index, os.path.basename(workspace)))
+
+select_workspace = int(input("select: "))
+
+be_path = "/home/rmateus/projects/suma/sumaform/sumaform/backend_modules/"
+backends = os.listdir(be_path)
+print('available backends:')
+for index, backend in enumerate(backends):
+  if os.path.isdir(be_path+backend):
+    print("{} - {}".format(index, backend))
+
+select_backend = int(input("select: "))
+
+
+print(select_workspace)
+print(workspaces[select_workspace])
+
+
+print(select_backend)
+print(backends[select_backend])
+
+print("switching workspace")
+os.system("ln -sf {}/terraform.tfstate /home/rmateus/projects/suma/sumaform/sumaform/terraform.tfstate".format(workspaces[select_workspace]))
+os.system("ln -sf {}/main.tf /home/rmateus/projects/suma/sumaform/sumaform/main.tf".format(workspaces[select_workspace]))
+
+print("switching backend")
+os.system("ln -sfn /home/rmateus/projects/suma/sumaform/sumaform/backend_modules/{} /home/rmateus/projects/suma/sumaform/sumaform/modules/backend".format(backends[select_backend]))

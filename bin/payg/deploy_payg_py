@@ -1,0 +1,37 @@
+#!/bin/bash
+if [ -z ${1} ]; then
+   echo "Provide the host to deploy to"
+   exit 1
+fi
+
+echo "deploying python files to $1"
+
+USER_DIR="${2}"
+if [ -z ${2} ]; then
+	USER_DIR="/home/ec2-user"
+fi
+echo $USER_DIR
+PROJECT_BASE_DIR="/home/rmateus/projects/suma/spacewalk/"
+
+scp "${PROJECT_BASE_DIR}/uyuni/common-libs/common/context_managers.py" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/context_managers.py /usr/lib/python3.6/site-packages/uyuni/common/context_managers.py"
+
+scp "${PROJECT_BASE_DIR}/backend/satellite_tools/reposync.py" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/reposync.py /usr/lib/python3.6/site-packages/spacewalk/satellite_tools/reposync.py"
+
+
+scp "${PROJECT_BASE_DIR}/backend/satellite_tools/spacewalk-extra-http-headers" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/spacewalk-extra-http-headers /usr/lib/zypp/plugins/urlresolver/spacewalk-extra-http-headers"
+
+
+scp "${PROJECT_BASE_DIR}/backend/satellite_tools/repo_plugins/yum_src.py" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/yum_src.py /usr/lib/python3.6/site-packages/spacewalk/satellite_tools/repo_plugins/yum_src.py"
+
+scp "${PROJECT_BASE_DIR}/backend/satellite_tools/repo_plugins/yum_dnf_src.py" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/yum_dnf_src.py /usr/lib/python3.6/site-packages/spacewalk/satellite_tools/repo_plugins/yum_dnf_src.py"
+
+scp "${PROJECT_BASE_DIR}/backend/satellite_tools/repo_plugins/uln_src.py" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/uln_src.py /usr/lib/python3.6/site-packages/spacewalk/satellite_tools/repo_plugins/uln_src.py"
+
+scp "${PROJECT_BASE_DIR}/backend/satellite_tools/repo_plugins/deb_src.py" $1:$USER_DIR
+ssh $1 "sudo mv $USER_DIR/deb_src.py /usr/lib/python3.6/site-packages/spacewalk/satellite_tools/repo_plugins/deb_src.py"
