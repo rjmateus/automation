@@ -4,8 +4,10 @@ if [ -z ${1} ]; then
    exit 1
 fi
 
-echo "remove snapshot with prefix $1"
+echo "revert snapshot with prefix $1"
 
-for i in `sudo virsh list --all --name | grep $1`; do sudo virsh snapshot-create-as --domain $i --name "${i}-snapshot"; done
+for i in `sudo virsh list --name | grep $1`; do sudo virsh shutdown --domain $i ; done
+
+for i in `sudo virsh list --all --name | grep $1`; do sudo virsh snapshot-revert --domain $i --snapshotname "${i}-snapshot" --running; done
 
 echo "done"

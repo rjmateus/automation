@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [ -z ${1} ]; then
-   echo "Provide the prefix of the environment as a parameter. Example: suma-32"
+   echo "Provide the prefix of the environment as a parameter. Example: suma-42"
    exit 1
 fi
 
 echo "create snapshot with prefix $1"
 
-for i in `sudo virsh list --all --name | grep $1`; do sudo virsh snapshot-delete --domain $i --snapshotname "${i}-snapshot"; done
+for i in `sudo virsh list --all --name | grep $1`; do sudo virsh snapshot-create-as --domain $i --name "${i}-snapshot"; done
 
 echo "done"

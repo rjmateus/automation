@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -z ${1} ]; then
+   echo "Provide the grepper for the branches to delete"
+   exit 1
+fi
+
+echo "removing branches $1"
+
+ for i in $( git branch -l | grep "$1"); do git branch -D $i; done
